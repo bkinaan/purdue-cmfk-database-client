@@ -1,6 +1,6 @@
 # Purdue College Mentors for Kids Database Client
 
-Client application built with NextJS that works with a custom REST API.
+Client application built with NextJS that works with a [custom REST API](https://github.com/bkinaan/purdue-cmfk-database-server?tab=readme-ov-file).
 
 ## What's Coming...
 
