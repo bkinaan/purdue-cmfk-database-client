@@ -6,7 +6,7 @@ import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 
 interface Mentor {
-  id?: number;
+  id: number;
   FirstName: string;
   LastName: string;
   EmailAddress: string;
@@ -16,6 +16,41 @@ interface Mentor {
   PrimaryStaffRole: string;
   SecondaryStaffRole: string;
   Paired: string;
+}
+
+interface Buddy {
+  id: number;
+  FirstName: string;
+  LastName: string;
+  School: string;
+  GradeLevel: string;
+  Allergies: string;
+  MedicalConditions: string;
+  DietaryRestrictions: string;
+  CarriesInhaler: string;
+  CarriesEpiPen: string;
+  HasLearningSocialDevelopmentalEmotionalIssues: string;
+  IssueDetails: string;
+  Medications: string;
+  Other: string;
+  GuardianFirstName: string;
+  GuardianLastName: string;
+  GuardianRelationship: string;
+  GuardianPrimaryPhone: string;
+  GuardianAltPhone: string;
+  GuardianEmailAddress: string;
+  EmergencyContactFirstName: string;
+  EmergencyContactLastName: string;
+  EmergencyContactRelationship: string;
+  EmergencyContactPhone1: string;
+  SafetyNotes: string;
+  ApprovedForPickupFirstName: string;
+  ApprovedForPickupLastName: string;
+  ApprovedForPickupRelationship: string;
+  ApprovedForPickupPrimaryPhone: string;
+  PairedWith: string;
+  FavoriteSubject: string;
+  HobbiesAndInterests: string;
 }
 
 export default function Home() {
@@ -37,11 +72,18 @@ export default function Home() {
   }, []);
 
   const [file, setFile] = useState<File | null>(null);
+  const [uploadType, setUploadType] = useState<"mentors" | "buddies">(
+    "mentors"
+  );
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
+  };
+
+  const handleUploadTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setUploadType(e.target.value as "mentors" | "buddies");
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -53,7 +95,7 @@ export default function Home() {
     formData.append("file", file);
 
     const response = await fetch(
-      "http://localhost:8080/api/v1/mentors/upload",
+      `http://localhost:8080/api/v1/${uploadType}/upload`,
       {
         method: "POST",
         body: formData,
@@ -63,8 +105,12 @@ export default function Home() {
     if (response.ok) {
       console.log("File uploaded successfully");
 
-      const response = await axios.get("http://localhost:8080/api/v1/mentors");
-      setMentors(response.data);
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/${uploadType}`
+      );
+      if (uploadType === "mentors") {
+        setMentors(response.data);
+      }
     } else {
       console.error("Error uploading file");
     }
@@ -81,6 +127,10 @@ export default function Home() {
         ))}
       </ul>
       <form onSubmit={handleSubmit}>
+        <select value={uploadType} onChange={handleUploadTypeChange}>
+          <option value="mentors">Mentors</option>
+          <option value="buddies">Buddies</option>
+        </select>
         <input type="file" onChange={handleFileChange} />
         <button type="submit">Upload</button>
       </form>
