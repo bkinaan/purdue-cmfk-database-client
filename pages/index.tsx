@@ -2,22 +2,20 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import fs from "fs";
-import csv from "csv-parser";
 
 const inter = Inter({ subsets: ["latin"] });
 
 interface Mentor {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  non_school_email: string;
-  phone: string;
-  activity_days: string;
-  role: string;
-  second_role: string;
-  paired_with: string;
+  id?: number;
+  FirstName: string;
+  LastName: string;
+  EmailAddress: string;
+  NonSchoolEmailAddress: string;
+  Phone: string;
+  ActivityDays: string;
+  PrimaryStaffRole: string;
+  SecondaryStaffRole: string;
+  Paired: string;
 }
 
 export default function Home() {
@@ -44,7 +42,7 @@ export default function Home() {
       <ul className="text-white">
         {mentors.map((mentor: Mentor) => (
           <li key={mentor.id}>
-            {mentor.first_name} {mentor.last_name}
+            {mentor.FirstName} {mentor.LastName}
           </li>
         ))}
       </ul>
