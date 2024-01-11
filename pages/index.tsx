@@ -5,6 +5,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useRouter } from "next/router";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -30,14 +31,15 @@ export default function Home() {
     resolver: zodResolver(schema),
   });
 
+  // allows routing to other pages
+  const router = useRouter();
+
   const onSubmit = async (data: FormData) => {
     // convert form data to JSON for HTTP request
     const body = JSON.stringify({
       username: data.username,
       password: data.password,
     });
-
-    console.log(body);
 
     try {
       const response = await axios.post(`${api}/login`, body, {
@@ -47,6 +49,10 @@ export default function Home() {
       });
 
       console.log(response);
+      sessionStorage.setItem("jwt", response.data);
+      const jwt = sessionStorage.getItem("jwt");
+      console.log(jwt);
+      router.push("/dashboard");
     } catch (err) {
       console.error(err);
     }
@@ -67,12 +73,13 @@ export default function Home() {
         <input {...register("username")} placeholder="username" />
 
         {/* display errors */}
-        {errors.username && <p>{errors.username.message}</p>}
+        {/* {errors.username && <p>{errors.username.message}</p>} */}
 
         <input {...register("password")} placeholder="password" />
 
         {/* display errors */}
-        {errors.password && <p>{errors.password.message}</p>}
+        {/* {errors.password && <p>{errors.password.message}</p>} */}
+
         <button type="submit">Submit</button>
       </form>
     </div>

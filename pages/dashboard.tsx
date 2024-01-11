@@ -55,8 +55,10 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchMentors() {
       try {
+        const jwt = sessionStorage.getItem("jwt");
         const response = await axios.get(
-          "http://localhost:8080/api/v1/mentors"
+          "http://localhost:8080/api/v1/mentors",
+          { headers: { Authorization: `Bearer ${jwt}` } }
         );
         setMentors(response.data);
       } catch (error) {
@@ -69,8 +71,8 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1>Mentors</h1>
-      <ul className="text-white">
+      <h1 className="text-black">Mentors</h1>
+      <ul className="text-black">
         {mentors.map((mentor: Mentor) => (
           <li key={mentor.id}>
             {mentor.FirstName} {mentor.LastName}
