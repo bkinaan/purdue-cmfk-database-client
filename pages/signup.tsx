@@ -1,28 +1,24 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/router";
 
-// const inter = Inter({ subsets: ["latin"] });
-
 const schema = z.object({
+  EmailAddress: z.string().min(1),
   username: z.string().min(1),
   password: z.string().min(1),
 });
 
 interface FormData {
+  EmailAddress: string;
   username: string;
   password: string;
 }
 
-export default function Home() {
+export default function Signup() {
   const api = "http://localhost:8080/api/v1";
 
-  // useForm hook with resolver and schema
   const {
     register,
     handleSubmit,
@@ -31,18 +27,17 @@ export default function Home() {
     resolver: zodResolver(schema),
   });
 
-  // allows routing to other pages
   const router = useRouter();
 
   const onSubmit = async (data: FormData) => {
-    // convert form data to JSON for HTTP request
     const body = JSON.stringify({
+      EmailAddress: data.EmailAddress,
       username: data.username,
       password: data.password,
     });
 
     try {
-      const response = await axios.post(`${api}/login`, body, {
+      const response = await axios.post(`${api}/signup`, body, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -58,27 +53,16 @@ export default function Home() {
 
   const handleFormSubmit = handleSubmit(onSubmit);
 
-  const handleSignUpClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    router.push("/signup");
-  };
-
   return (
-    <div className="text-black">
-      <form onSubmit={handleFormSubmit}>
-        <input {...register("username")} placeholder="username" />
-
-        {/* display errors */}
-        {/* {errors.username && <p>{errors.username.message}</p>} */}
-
-        <input {...register("password")} placeholder="password" />
-
-        {/* display errors */}
-        {/* {errors.password && <p>{errors.password.message}</p>} */}
-
-        <button type="submit">Submit</button>
-      </form>
-      <div>
-        Or <button onClick={handleSignUpClick}>sign up</button>
+    <div>
+      <div className="text-black">Sign Up</div>
+      <div className="text-black">
+        <form onSubmit={handleFormSubmit}>
+          <input {...register("EmailAddress")} placeholder="email address" />
+          <input {...register("username")} placeholder="username" />
+          <input {...register("password")} placeholder="password" />
+          <button type="submit">Submit</button>
+        </form>
       </div>
     </div>
   );
