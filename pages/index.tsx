@@ -1,138 +1,79 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
-interface Mentor {
-  id: number;
-  FirstName: string;
-  LastName: string;
-  EmailAddress: string;
-  NonSchoolEmailAddress: string;
-  Phone: string;
-  ActivityDays: string;
-  PrimaryStaffRole: string;
-  SecondaryStaffRole: string;
-  Paired: string;
-}
+const schema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
+});
 
-interface Buddy {
-  id: number;
-  FirstName: string;
-  LastName: string;
-  School: string;
-  GradeLevel: string;
-  Allergies: string;
-  MedicalConditions: string;
-  DietaryRestrictions: string;
-  CarriesInhaler: string;
-  CarriesEpiPen: string;
-  HasLearningSocialDevelopmentalEmotionalIssues: string;
-  IssueDetails: string;
-  Medications: string;
-  Other: string;
-  GuardianFirstName: string;
-  GuardianLastName: string;
-  GuardianRelationship: string;
-  GuardianPrimaryPhone: string;
-  GuardianAltPhone: string;
-  GuardianEmailAddress: string;
-  EmergencyContactFirstName: string;
-  EmergencyContactLastName: string;
-  EmergencyContactRelationship: string;
-  EmergencyContactPhone1: string;
-  SafetyNotes: string;
-  ApprovedForPickupFirstName: string;
-  ApprovedForPickupLastName: string;
-  ApprovedForPickupRelationship: string;
-  ApprovedForPickupPrimaryPhone: string;
-  PairedWith: string;
-  FavoriteSubject: string;
-  HobbiesAndInterests: string;
+interface FormData {
+  username: string;
+  password: string;
 }
 
 export default function Home() {
-  const [mentors, setMentors] = useState<Mentor[]>([]);
+  const api = "http://localhost:8080/api/v1";
 
-  useEffect(() => {
-    async function fetchMentors() {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/mentors"
-        );
-        setMentors(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+  // useForm hook with resolver and schema
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
-    fetchMentors();
-  }, []);
+  const onSubmit = async (data: FormData) => {
+    // convert form data to JSON for HTTP request
+    const body = JSON.stringify({
+      username: data.username,
+      password: data.password,
+    });
 
-  const [file, setFile] = useState<File | null>(null);
-  const [uploadType, setUploadType] = useState<"mentors" | "buddies">(
-    "mentors"
-  );
+    console.log(body);
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
-  };
+    try {
+      const response = await axios.post(`${api}/login`, body, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  const handleUploadTypeChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setUploadType(e.target.value as "mentors" | "buddies");
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    const response = await fetch(
-      `http://localhost:8080/api/v1/${uploadType}/upload`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    if (response.ok) {
-      console.log("File uploaded successfully");
-
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/${uploadType}`
-      );
-      if (uploadType === "mentors") {
-        setMentors(response.data);
-      }
-    } else {
-      console.error("Error uploading file");
+      console.log(response);
+    } catch (err) {
+      console.error(err);
     }
   };
+
+  const handleFormSubmit = handleSubmit(onSubmit);
 
   return (
-    <div>
-      <h1>Mentors</h1>
-      <ul className="text-white">
-        {mentors.map((mentor: Mentor) => (
-          <li key={mentor.id}>
-            {mentor.FirstName} {mentor.LastName}
-          </li>
-        ))}
-      </ul>
-      <form onSubmit={handleSubmit}>
-        <select value={uploadType} onChange={handleUploadTypeChange}>
-          <option value="mentors">Mentors</option>
-          <option value="buddies">Buddies</option>
-        </select>
-        <input type="file" onChange={handleFileChange} />
-        <button type="submit">Upload</button>
+    <div className="text-black">
+      {/* <div>Log in</div>
+      <div>Username</div>
+      <input type="text" />
+      <div>Password</div>
+      <input type="text" />
+      <div></div>
+      <button>Submit</button> */}
+      <form onSubmit={handleFormSubmit}>
+        <input {...register("username")} placeholder="username" />
+
+        {/* display errors */}
+        {errors.username && <p>{errors.username.message}</p>}
+
+        <input {...register("password")} placeholder="password" />
+
+        {/* display errors */}
+        {errors.password && <p>{errors.password.message}</p>}
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
