@@ -44,7 +44,7 @@ type Buddy = {
   ApprovedForPickupLastName: string;
   ApprovedForPickupRelationship: string;
   ApprovedForPickupPrimaryPhone: string;
-  PairedWith: string;
+  Paired: string;
   FavoriteSubject: string;
   HobbiesAndInterests: string;
 };
@@ -81,7 +81,7 @@ export default function Dashboard() {
       <ul className="text-black">
         {mentors.map((mentor: Mentor) => (
           <li key={mentor.id}>
-            {mentor.FirstName} {mentor.LastName}
+            {mentor.FirstName} {mentor.LastName} {mentor.Paired}
           </li>
         ))}
       </ul>

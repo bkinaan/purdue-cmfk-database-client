@@ -79,7 +79,10 @@ export default function Home() {
           <div>There was a problem with the network. Please try again.</div>
         )}
       </div>
-      <form className="flex flex-col pt-4" onSubmit={handleFormSubmit}>
+      <form
+        className="flex flex-col border-2 rounded-xl w-full m-auto max-w-96 pt-12 pb-8"
+        onSubmit={handleFormSubmit}
+      >
         <input
           className="border-2 m-auto w-full max-w-64 rounded-lg"
           {...register("username")}
