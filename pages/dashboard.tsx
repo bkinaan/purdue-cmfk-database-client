@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-interface Mentor {
+type Mentor = {
   id: number;
   FirstName: string;
   LastName: string;
@@ -12,9 +12,9 @@ interface Mentor {
   PrimaryStaffRole: string;
   SecondaryStaffRole: string;
   Paired: string;
-}
+};
 
-interface Buddy {
+type Buddy = {
   id: number;
   FirstName: string;
   LastName: string;
@@ -47,7 +47,7 @@ interface Buddy {
   PairedWith: string;
   FavoriteSubject: string;
   HobbiesAndInterests: string;
-}
+};
 
 export default function Dashboard() {
   const [mentors, setMentors] = useState<Mentor[]>([]);
@@ -60,7 +60,13 @@ export default function Dashboard() {
           "http://localhost:8080/api/v1/mentors",
           { headers: { Authorization: `Bearer ${jwt}` } }
         );
-        setMentors(response.data);
+
+        // handle a single mentor being returned vs a list
+        if (Array.isArray(response.data)) {
+          setMentors(response.data);
+        } else {
+          setMentors([response.data]);
+        }
       } catch (error) {
         console.error(error);
       }
