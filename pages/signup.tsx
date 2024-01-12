@@ -54,16 +54,28 @@ export default function Signup() {
   const handleFormSubmit = handleSubmit(onSubmit);
 
   return (
-    <div>
-      <div className="text-black">Sign Up</div>
-      <div className="text-black">
-        <form onSubmit={handleFormSubmit}>
-          <input {...register("EmailAddress")} placeholder="email address" />
-          <input {...register("username")} placeholder="username" />
-          <input {...register("password")} placeholder="password" />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+    <div className="text-black font-montserrat text-center pt-48">
+      <div className="font-bold text-5xl">Sign Up</div>
+      <form className="flex flex-col pt-4" onSubmit={handleFormSubmit}>
+        <input
+          className="border-2 m-auto w-full max-w-64 rounded-lg"
+          {...register("EmailAddress")}
+          placeholder="email address"
+        />
+        <input
+          className="border-2 m-auto w-full max-w-64 rounded-lg mt-2"
+          {...register("username")}
+          placeholder="username"
+        />
+        <input
+          className="border-2 m-auto w-full max-w-64 rounded-lg mt-2"
+          {...register("password")}
+          placeholder="password"
+        />
+        <button className="mt-4" type="submit">
+          Submit
+        </button>
+      </form>
     </div>
   );
 }

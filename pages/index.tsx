@@ -22,6 +22,8 @@ interface FormData {
 export default function Home() {
   const api = "http://localhost:8080/api/v1";
 
+  const [serverError, setServerError] = useState(false);
+
   // useForm hook with resolver and schema
   const {
     register,
@@ -35,6 +37,7 @@ export default function Home() {
   const router = useRouter();
 
   const onSubmit = async (data: FormData) => {
+    setServerError(false);
     // convert form data to JSON for HTTP request
     const body = JSON.stringify({
       username: data.username,
@@ -49,9 +52,10 @@ export default function Home() {
       });
 
       sessionStorage.setItem("jwt", response.data);
-      const jwt = sessionStorage.getItem("jwt");
+      // const jwt = sessionStorage.getItem("jwt");
       router.push("/dashboard");
     } catch (err) {
+      setServerError(true);
       console.error(err);
     }
   };
@@ -63,19 +67,39 @@ export default function Home() {
   };
 
   return (
-    <div className="text-black">
-      <form onSubmit={handleFormSubmit}>
-        <input {...register("username")} placeholder="username" />
-
+    <div className="text-black font-montserrat text-center pt-48">
+      <div className="font-bold text-5xl">
+        Purdue College Mentors for Kids Database
+      </div>
+      <div className="pt-4">
+        {errors.username && errors.password && (
+          <div>Incorrect username or password</div>
+        )}
+        {serverError && (
+          <div>There was a problem with the network. Please try again.</div>
+        )}
+      </div>
+      <form className="flex flex-col pt-4" onSubmit={handleFormSubmit}>
+        <input
+          className="border-2 m-auto w-full max-w-64 rounded-lg"
+          {...register("username")}
+          placeholder="username"
+        />
         {/* display errors */}
         {/* {errors.username && <p>{errors.username.message}</p>} */}
-
-        <input {...register("password")} placeholder="password" />
-
+        <input
+          className="border-2 m-auto w-full max-w-64 rounded-lg mt-2"
+          {...register("password")}
+          placeholder="password"
+        />
         {/* display errors */}
         {/* {errors.password && <p>{errors.password.message}</p>} */}
-
-        <button type="submit">Submit</button>
+        <button
+          className="border-2 m-auto w-full max-w-32 mt-2 rounded-lg"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
       <div>
         Or <button onClick={handleSignUpClick}>sign up</button>
