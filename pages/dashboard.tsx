@@ -85,7 +85,6 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
       username = window.sessionStorage.getItem("username");
       user = mentors.find((mentor: Mentor) => mentor.username === username);
-      console.log(`User: ${user}`);
       setFirstName(user?.FirstName || null);
     }
   }, [mentors]);
@@ -96,7 +95,7 @@ export default function Dashboard() {
 
   return (
     <div className="text-black font-montserrat">
-      <div>Hello, {FirstName}</div>
+      <div className="text-5xl font-black">Hello, {FirstName}!</div>
       <ul>
         {/* {mentors.map((mentor: Mentor) => (
           <li key={mentor.id}>

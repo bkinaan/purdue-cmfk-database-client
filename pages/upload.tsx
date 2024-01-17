@@ -36,9 +36,9 @@ export default function Upload() {
     if (response.ok) {
       console.log("File uploaded successfully");
 
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/${uploadType}`
-      );
+      // const response = await axios.get(
+      //   `http://localhost:8080/api/v1/${uploadType}`
+      // );
       if (uploadType === "mentors") {
         // setMentors(response.data); // mentors displayed on seperate page
         console.log("Uploaded successfully");
@@ -49,7 +49,7 @@ export default function Upload() {
   };
 
   return (
-    <div>
+    <div className="text-black">
       <form onSubmit={handleSubmit}>
         <select value={uploadType} onChange={handleUploadTypeChange}>
           <option value="mentors">Mentors</option>
