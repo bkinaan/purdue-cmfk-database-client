@@ -60,21 +60,27 @@ export default function Login() {
     router.push("/signup");
   };
   return (
-    <div className="">
+    <div className="text-grey">
       <div className="pt-4">
         {errors.username && errors.password && (
-          <div>Incorrect username or password</div>
+          <div className="fixed text-teal">Incorrect username or password</div>
         )}
         {serverError && (
-          <div>There was a problem with the network. Please try again.</div>
+          <div className="fixed text-teal">
+            There was a problem with the network. Please try again.
+          </div>
         )}
       </div>
+
       <form
-        className="flex flex-col border-2 rounded-xl w-full m-auto max-w-96 pt-12 pb-8"
+        className="bg-teal font-montserrat flex flex-col rounded-xl w-full m-auto max-w-96 pt-12 pb-8 mt-36 justify-center text-teal"
         onSubmit={handleFormSubmit}
       >
+        <div className="text-grey text-5xl font-black m-auto items-center text-center pb-8 w-full">
+          Log In
+        </div>
         <input
-          className="border-2 m-auto w-full max-w-64 rounded-lg"
+          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2"
           {...register("username")}
           placeholder="username"
           type="username"
@@ -82,20 +88,22 @@ export default function Login() {
         {/* display errors */}
         {/* {errors.username && <p>{errors.username.message}</p>} */}
         <input
-          className="border-2 m-auto w-full max-w-64 rounded-lg mt-2"
+          className="border-2 border-teal m-auto w-full max-w-64 mb-4 rounded-xl mt-2 bg-grey text-xl pl-3 py-2"
           {...register("password")}
           placeholder="password"
           type="password"
         />
         {/* display errors */}
         {/* {errors.password && <p>{errors.password.message}</p>} */}
+
         <button
-          className="border-2 m-auto w-full max-w-32 mt-2 rounded-lg"
+          className="m-auto w-full max-w-32 mt-2 my-8 px-4 py-2 text-grey text-lg bg-blue hover:bg-orange rounded-xl shadow-lg shadow-grey hover:translate-y-1 hover:shadow-md hover:shadow-grey transition duration-300 ease-in-out"
           type="submit"
         >
           Submit
         </button>
       </form>
+
       <div>
         Or <button onClick={handleSignUpClick}>sign up</button>
       </div>

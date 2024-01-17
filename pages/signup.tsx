@@ -55,27 +55,35 @@ export default function Signup() {
   const handleFormSubmit = handleSubmit(onSubmit);
 
   return (
-    <div className="font-montserrat text-center pt-48">
-      <div className="font-bold text-5xl">Sign Up</div>
-      <form className="flex flex-col pt-4" onSubmit={handleFormSubmit}>
+    <div className="font-montserrat text-center">
+      <form
+        className="bg-teal font-montserrat flex flex-col rounded-xl w-full m-auto max-w-96 pt-12 pb-8 mt-36 justify-center text-teal"
+        onSubmit={handleFormSubmit}
+      >
+        <div className="text-grey text-5xl font-black m-auto items-center text-center pb-8 w-full">
+          Sign Up
+        </div>
         <input
-          className="border-2 m-auto w-full max-w-64 rounded-lg"
+          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2"
           {...register("EmailAddress")}
           placeholder="email address"
         />
         <input
-          className="border-2 m-auto w-full max-w-64 rounded-lg mt-2"
+          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2 mt-2"
           {...register("username")}
           placeholder="username"
           type="username"
         />
         <input
-          className="border-2 m-auto w-full max-w-64 rounded-lg mt-2"
+          className="border-teal m-auto w-full max-w-64 mb-4 rounded-xl mt-2 bg-grey text-xl pl-3 py-2"
           {...register("password")}
           placeholder="password"
           type="password"
         />
-        <button className="mt-4" type="submit">
+        <button
+          className="m-auto w-full max-w-32 mt-2 my-8 px-4 py-2 text-grey text-lg bg-blue hover:bg-orange rounded-xl shadow-lg shadow-grey hover:translate-y-1 hover:shadow-md hover:shadow-grey transition duration-300 ease-in-out"
+          type="submit"
+        >
           Submit
         </button>
       </form>

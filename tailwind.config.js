@@ -34,6 +34,13 @@ module.exports = {
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
       },
+      colors: {
+        grey: "#212A2F",
+        purple: "#6C4477",
+        blue: "#84A9C3",
+        teal: "#66C2A5",
+        orange: "#CC8D71",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
