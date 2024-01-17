@@ -94,7 +94,7 @@ export default function Dashboard() {
   // const user = mentors.find((mentor: Mentor) => mentor.username === username);
 
   return (
-    <div className="text-black font-montserrat">
+    <div className="font-montserrat">
       <div className="text-5xl font-black">Hello, {FirstName}!</div>
       <ul>
         {/* {mentors.map((mentor: Mentor) => (

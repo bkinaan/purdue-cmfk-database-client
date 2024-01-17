@@ -49,7 +49,7 @@ export default function Upload() {
   };
 
   return (
-    <div className="text-black">
+    <div className="">
       <form onSubmit={handleSubmit}>
         <select value={uploadType} onChange={handleUploadTypeChange}>
           <option value="mentors">Mentors</option>
