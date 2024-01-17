@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Table from "./mentors/Table";
 
 type Mentor = {
   id: number;
+  username: string;
   FirstName: string;
   LastName: string;
   EmailAddress: string;
@@ -51,6 +53,7 @@ type Buddy = {
 
 export default function Dashboard() {
   const [mentors, setMentors] = useState<Mentor[]>([]);
+  const [FirstName, setFirstName] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchMentors() {
@@ -75,16 +78,35 @@ export default function Dashboard() {
     fetchMentors();
   }, []);
 
+  let username: string | null;
+  let user: Mentor | undefined;
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      username = window.sessionStorage.getItem("username");
+      user = mentors.find((mentor: Mentor) => mentor.username === username);
+      console.log(`User: ${user}`);
+      setFirstName(user?.FirstName || null);
+    }
+  }, [mentors]);
+
+  // const username = sessionStorage.getItem("username");
+
+  // const user = mentors.find((mentor: Mentor) => mentor.username === username);
+
   return (
-    <div>
-      <h1 className="text-black">Mentors</h1>
-      <ul className="text-black">
-        {mentors.map((mentor: Mentor) => (
+    <div className="text-black font-montserrat">
+      <div>Hello, {FirstName}</div>
+      <ul>
+        {/* {mentors.map((mentor: Mentor) => (
           <li key={mentor.id}>
             {mentor.FirstName} {mentor.LastName} {mentor.Paired}
           </li>
-        ))}
+        ))} */}
       </ul>
+      <div>
+        <Table></Table>
+      </div>
     </div>
   );
 }
