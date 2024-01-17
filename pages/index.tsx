@@ -52,6 +52,7 @@ export default function Home() {
       });
 
       sessionStorage.setItem("jwt", response.data);
+      sessionStorage.setItem("username", data.username);
       // const jwt = sessionStorage.getItem("jwt");
       router.push("/dashboard");
     } catch (err) {

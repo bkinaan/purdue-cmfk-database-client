@@ -44,7 +44,8 @@ export default function Signup() {
       });
 
       sessionStorage.setItem("jwt", response.data);
-      const jwt = sessionStorage.getItem("jwt");
+      sessionStorage.setItem("username", data.username);
+      // const jwt = sessionStorage.getItem("jwt");
       router.push("/dashboard");
     } catch (err) {
       console.error(err);
