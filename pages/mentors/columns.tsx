@@ -29,10 +29,6 @@ export const columns: ColumnDef<Mentor>[] = [
     header: "Primary Staff Role",
   },
   {
-    accessorKey: "SecondaryStaffRole",
-    header: "Secondary Staff Role",
-  },
-  {
     accessorKey: "Paired",
     header: "Paired With",
   },

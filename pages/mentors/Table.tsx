@@ -4,7 +4,6 @@ import { DataTable } from "./data-table";
 import axios from "axios";
 
 async function getData(): Promise<Mentor[]> {
-  // TODO: fetch data
   let response;
   try {
     const jwt = sessionStorage.getItem("jwt");
