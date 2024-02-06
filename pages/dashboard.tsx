@@ -95,14 +95,7 @@ export default function Dashboard() {
 
   return (
     <div className="font-montserrat">
-      <div className="text-5xl font-black">Hello, {FirstName}!</div>
-      <ul>
-        {/* {mentors.map((mentor: Mentor) => (
-          <li key={mentor.id}>
-            {mentor.FirstName} {mentor.LastName} {mentor.Paired}
-          </li>
-        ))} */}
-      </ul>
+      <div className="text-5xl font-black ml-10 mt-10">Hello, {FirstName}!</div>
       <div>
         <Table></Table>
       </div>
