@@ -6,7 +6,7 @@ import axios from "axios";
 async function getData(): Promise<Mentor[]> {
   let response;
   try {
-    const jwt = sessionStorage.getItem("jwt");
+    const jwt = localStorage.getItem("jwt");
     response = await axios.get("http://localhost:8080/api/v1/mentors", {
       headers: { Authorization: `Bearer ${jwt}` },
     });

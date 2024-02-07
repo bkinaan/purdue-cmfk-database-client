@@ -44,9 +44,9 @@ export default function Login() {
         },
       });
 
-      sessionStorage.setItem("jwt", response.data);
-      sessionStorage.setItem("username", data.username);
-      // const jwt = sessionStorage.getItem("jwt");
+      localStorage.setItem("jwt", response.data);
+      localStorage.setItem("username", data.username);
+      // const jwt = localStorage.getItem("jwt");
       router.push("/dashboard");
     } catch (err) {
       setServerError(true);

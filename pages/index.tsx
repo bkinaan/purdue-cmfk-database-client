@@ -1,11 +1,27 @@
 import React from "react";
 import { useRouter } from "next/router";
+import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
   const router = useRouter();
 
   const handleLoginClick = () => {
-    router.push("/login");
+    const jwt = localStorage.getItem("jwt");
+
+    if (jwt) {
+      const decoded = jwtDecode(jwt);
+      const date = new Date();
+
+      if ((decoded.exp ?? 0) * 1000 < date.getTime()) {
+        console.log("expired");
+      } else {
+        console.log("token is all good!");
+      }
+
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
+    }
   };
 
   const handleSignUpClick = () => {

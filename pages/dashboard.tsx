@@ -58,7 +58,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchMentors() {
       try {
-        const jwt = sessionStorage.getItem("jwt");
+        const jwt = localStorage.getItem("jwt");
         const response = await axios.get(
           "http://localhost:8080/api/v1/mentors",
           { headers: { Authorization: `Bearer ${jwt}` } }
@@ -83,13 +83,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      username = window.sessionStorage.getItem("username");
+      username = window.localStorage.getItem("username");
       user = mentors.find((mentor: Mentor) => mentor.username === username);
       setFirstName(user?.FirstName || null);
     }
   }, [mentors]);
 
-  // const username = sessionStorage.getItem("username");
+  // const username = localStorage.getItem("username");
 
   // const user = mentors.find((mentor: Mentor) => mentor.username === username);
 
