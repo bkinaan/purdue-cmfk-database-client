@@ -54,6 +54,8 @@ type Buddy = {
 export default function Dashboard() {
   const [mentors, setMentors] = useState<Mentor[]>([]);
   const [FirstName, setFirstName] = useState<string | null>(null);
+  const [PairedWith, setPairedWith] = useState<string | null>(null);
+  const [showMentorTable, setShowMentorTable] = useState<boolean>(false);
 
   useEffect(() => {
     async function fetchMentors() {
@@ -80,15 +82,21 @@ export default function Dashboard() {
     fetchMentors();
   }, []);
 
-  let username: string | null;
-  let user: Mentor | undefined;
-  let pairedWith: string | null;
+  // let pairedWith: string | null;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      let user: Mentor | undefined;
+      let username: string | null;
       username = window.localStorage.getItem("username");
       user = mentors.find((mentor: Mentor) => mentor.username === username);
+      if (user?.PrimaryStaffRole || user?.SecondaryStaffRole) {
+        console.log(user?.PrimaryStaffRole);
+        console.log("running!");
+        setShowMentorTable(true);
+      }
       setFirstName(user?.FirstName || null);
+      setPairedWith(user?.Paired || null);
       if (user === null) {
         setFirstName("Mentor");
       }
@@ -102,10 +110,12 @@ export default function Dashboard() {
   return (
     <div className="font-montserrat">
       <div className="ml-10 mt-10 text-5xl font-black">Hello, {FirstName}!</div>
-      {/* <div className="ml-10 mt-10">Paired with: {mentors[0].Paired}</div> */}
-      <div>
-        <Table></Table>
-      </div>
+      <div className="ml-10 mt-10">Paired with: {PairedWith}</div>
+      {showMentorTable && (
+        <div>
+          <Table></Table>
+        </div>
+      )}
     </div>
   );
 }
