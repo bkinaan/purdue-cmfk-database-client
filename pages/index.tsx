@@ -14,11 +14,12 @@ export default function Home() {
 
       if ((decoded.exp ?? 0) * 1000 < date.getTime()) {
         console.log("expired");
+        router.push("/login");
       } else {
         console.log("token is all good!");
-      }
 
-      router.push("/dashboard");
+        router.push("/dashboard");
+      }
     } else {
       router.push("/login");
     }
@@ -28,24 +29,24 @@ export default function Home() {
     router.push("/signup");
   };
   return (
-    <div className="font-montserrat text-center pt-48 flex items-center">
-      <div className="font-bold text-7xl text-teal w-2/3 p-4">
-        <div className="max-w-md text-center m-auto">
+    <div className="font-montserrat flex items-center pt-48 text-center">
+      <div className="text-teal w-2/3 p-4 text-7xl font-bold">
+        <div className="m-auto max-w-md text-center">
           <div className="text-orange">Purdue</div>
           College Mentors for Kids
           <div className="text-purple">Database</div>
         </div>
       </div>
-      <div className="flex flex-col w-1/3 items-center text-grey text-2xl bg-teal rounded-xl p-12 mt-8 max-w-fit justify-center">
+      <div className="text-grey '#EAE3D9' mt-8 flex w-1/3 max-w-fit flex-col items-center justify-center rounded-xl p-12 text-2xl">
         <button
           onClick={handleLoginClick}
-          className="my-8 px-4 py-2 bg-blue hover:bg-orange rounded-xl shadow-lg shadow-grey hover:translate-y-1 hover:shadow-md hover:shadow-grey transition duration-300 ease-in-out"
+          className="bg-teal hover:bg-orange shadow-grey hover:shadow-grey my-8 rounded-xl px-4 py-2 shadow-lg transition duration-300 ease-in-out hover:translate-y-1 hover:shadow-md"
         >
           Log In
         </button>
         <button
           onClick={handleSignUpClick}
-          className="px-4 py-2 mb-8 bg-blue hover:bg-orange rounded-xl shadow-lg shadow-grey hover:translate-y-1 hover:shadow-md hover:shadow-grey transition duration-300 ease-in-out"
+          className="bg-teal hover:bg-orange shadow-grey hover:shadow-grey mb-8 rounded-xl px-4 py-2 shadow-lg transition duration-300 ease-in-out hover:translate-y-1 hover:shadow-md"
         >
           Sign Up
         </button>

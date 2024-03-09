@@ -61,7 +61,7 @@ export default function Dashboard() {
         const jwt = localStorage.getItem("jwt");
         const response = await axios.get(
           "http://localhost:8080/api/v1/mentors",
-          { headers: { Authorization: `Bearer ${jwt}` } }
+          { headers: { Authorization: `Bearer ${jwt}` } },
         );
 
         // handle a single mentor being returned vs a list
@@ -69,6 +69,8 @@ export default function Dashboard() {
           setMentors(response.data);
         } else {
           setMentors([response.data]);
+
+          // find who mentor is paired with
         }
       } catch (error) {
         console.error(error);
@@ -80,12 +82,16 @@ export default function Dashboard() {
 
   let username: string | null;
   let user: Mentor | undefined;
+  let pairedWith: string | null;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       username = window.localStorage.getItem("username");
       user = mentors.find((mentor: Mentor) => mentor.username === username);
       setFirstName(user?.FirstName || null);
+      if (user === null) {
+        setFirstName("Mentor");
+      }
     }
   }, [mentors]);
 
@@ -95,7 +101,8 @@ export default function Dashboard() {
 
   return (
     <div className="font-montserrat">
-      <div className="text-5xl font-black ml-10 mt-10">Hello, {FirstName}!</div>
+      <div className="ml-10 mt-10 text-5xl font-black">Hello, {FirstName}!</div>
+      {/* <div className="ml-10 mt-10">Paired with: {mentors[0].Paired}</div> */}
       <div>
         <Table></Table>
       </div>

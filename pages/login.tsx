@@ -63,24 +63,24 @@ export default function Login() {
     <div className="text-grey">
       <div className="pt-4">
         {errors.username && errors.password && (
-          <div className="fixed text-teal">Incorrect username or password</div>
+          <div className="text-teal fixed">Incorrect username or password</div>
         )}
         {serverError && (
-          <div className="fixed text-teal">
+          <div className="text-teal fixed">
             There was a problem with the network. Please try again.
           </div>
         )}
       </div>
 
       <form
-        className="bg-teal font-montserrat flex flex-col rounded-xl w-full m-auto max-w-96 pt-12 pb-8 mt-36 justify-center text-teal"
+        className="bg-teal font-montserrat text-teal m-auto mt-36 flex w-full max-w-96 flex-col justify-center rounded-xl pb-8 pt-12"
         onSubmit={handleFormSubmit}
       >
-        <div className="text-grey text-5xl font-black m-auto items-center text-center pb-8 w-full">
+        <div className="text-grey m-auto w-full items-center pb-8 text-center text-5xl font-black">
           Log In
         </div>
         <input
-          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2"
+          className="border-teal bg-grey m-auto w-full max-w-64 rounded-xl border-2 py-2 pl-3 text-xl"
           {...register("username")}
           placeholder="username"
           type="username"
@@ -88,7 +88,7 @@ export default function Login() {
         {/* display errors */}
         {/* {errors.username && <p>{errors.username.message}</p>} */}
         <input
-          className="border-2 border-teal m-auto w-full max-w-64 mb-4 rounded-xl mt-2 bg-grey text-xl pl-3 py-2"
+          className="border-teal bg-grey m-auto mb-4 mt-2 w-full max-w-64 rounded-xl border-2 py-2 pl-3 text-xl"
           {...register("password")}
           placeholder="password"
           type="password"
@@ -97,7 +97,7 @@ export default function Login() {
         {/* {errors.password && <p>{errors.password.message}</p>} */}
 
         <button
-          className="m-auto w-full max-w-32 mt-2 my-8 px-4 py-2 text-grey text-lg bg-blue hover:bg-orange rounded-xl shadow-lg shadow-grey hover:translate-y-1 hover:shadow-md hover:shadow-grey transition duration-300 ease-in-out"
+          className="text-grey bg-blue hover:bg-orange shadow-grey hover:shadow-grey m-auto my-8 mt-2 w-full max-w-32 rounded-xl px-4 py-2 text-lg shadow-lg transition duration-300 ease-in-out hover:translate-y-1 hover:shadow-md"
           type="submit"
         >
           Submit
