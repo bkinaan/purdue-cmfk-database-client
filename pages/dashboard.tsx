@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 import Table from "./mentors/Table";
 
 type Mentor = {
@@ -57,10 +58,15 @@ export default function Dashboard() {
   const [PairedWith, setPairedWith] = useState<string | null>(null);
   const [showMentorTable, setShowMentorTable] = useState<boolean>(false);
 
+  const router = useRouter();
+
   useEffect(() => {
     async function fetchMentors() {
       try {
         const jwt = localStorage.getItem("jwt");
+        if (!jwt) {
+          router.push("/login");
+        }
         const response = await axios.get(
           "http://localhost:8080/api/v1/mentors",
           { headers: { Authorization: `Bearer ${jwt}` } },
@@ -71,8 +77,6 @@ export default function Dashboard() {
           setMentors(response.data);
         } else {
           setMentors([response.data]);
-
-          // find who mentor is paired with
         }
       } catch (error) {
         console.error(error);
@@ -80,7 +84,7 @@ export default function Dashboard() {
     }
 
     fetchMentors();
-  }, []);
+  });
 
   // let pairedWith: string | null;
 
