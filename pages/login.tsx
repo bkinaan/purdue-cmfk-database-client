@@ -27,11 +27,15 @@ export default function Login() {
     resolver: zodResolver(schema),
   });
 
+  const handleSignUpClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    router.push("/signup");
+  };
+
   const router = useRouter();
 
   const onSubmit = async (data: FormData) => {
     setServerError(false);
-    // convert form data to JSON for HTTP request
+
     const body = JSON.stringify({
       username: data.username,
       password: data.password,
@@ -46,19 +50,16 @@ export default function Login() {
 
       localStorage.setItem("jwt", response.data);
       localStorage.setItem("username", data.username);
-      // const jwt = localStorage.getItem("jwt");
+
       router.push("/dashboard");
-    } catch (err) {
+    } catch (e) {
       setServerError(true);
-      console.error(err);
+      console.error(e);
     }
   };
 
   const handleFormSubmit = handleSubmit(onSubmit);
 
-  const handleSignUpClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    router.push("/signup");
-  };
   return (
     <div className="text-grey">
       <div className="pt-4">

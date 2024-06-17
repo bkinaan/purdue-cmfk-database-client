@@ -5,15 +5,19 @@ import * as z from "zod";
 import { useRouter } from "next/router";
 
 const schema = z.object({
-  EmailAddress: z.string().min(1),
   username: z.string().min(1),
   password: z.string().min(1),
+  FirstName: z.string().min(1),
+  LastName: z.string().min(1),
+  EmailAddress: z.string().min(1),
 });
 
 interface FormData {
-  EmailAddress: string;
   username: string;
   password: string;
+  FirstName: string;
+  LastName: string;
+  EmailAddress: string;
 }
 
 export default function Signup() {
@@ -31,10 +35,16 @@ export default function Signup() {
 
   const onSubmit = async (data: FormData) => {
     const body = JSON.stringify({
-      EmailAddress: data.EmailAddress,
       username: data.username,
       password: data.password,
+      FirstName: data.FirstName,
+      LastName: data.LastName,
+      EmailAddress: data.EmailAddress,
+      StaffRole: "",
+      PairedWith: "",
     });
+
+    console.log(body);
 
     try {
       const response = await axios.post(`${api}/signup`, body, {
@@ -45,10 +55,9 @@ export default function Signup() {
 
       localStorage.setItem("jwt", response.data);
       localStorage.setItem("username", data.username);
-      // const jwt = localStorage.getItem("jwt");
       router.push("/dashboard");
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -64,11 +73,6 @@ export default function Signup() {
           Sign Up
         </div>
         <input
-          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2"
-          {...register("EmailAddress")}
-          placeholder="email address"
-        />
-        <input
           className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2 mt-2"
           {...register("username")}
           placeholder="username"
@@ -79,6 +83,21 @@ export default function Signup() {
           {...register("password")}
           placeholder="password"
           type="password"
+        />
+        <input
+          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2"
+          {...register("FirstName")}
+          placeholder="first name"
+        />
+        <input
+          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2"
+          {...register("LastName")}
+          placeholder="last name"
+        />
+        <input
+          className="border-2 border-teal m-auto w-full max-w-64 rounded-xl bg-grey text-xl pl-3 py-2"
+          {...register("EmailAddress")}
+          placeholder="email address"
         />
         <button
           className="m-auto w-full max-w-32 mt-2 my-8 px-4 py-2 text-grey text-lg bg-blue hover:bg-orange rounded-xl shadow-lg shadow-grey hover:translate-y-1 hover:shadow-md hover:shadow-grey transition duration-300 ease-in-out"
